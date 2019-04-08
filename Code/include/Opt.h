@@ -6,11 +6,13 @@
 #define CODE_OPT_H
 
 #include "std_lib_facilities.h"
-#include "Portfolio.h"
+#include "Asset.h"
 
 class Opt {
     /*
-     * An object that operates using portfolio objects
+     * An object that operates on portfolio objects and returns new optimized portfolios
+     *
+     * TODO - What functionalities are needed?
      */
 public:
     // Constructor

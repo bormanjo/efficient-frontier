@@ -6,18 +6,18 @@
 #define CODE_YFDATA_H
 
 #include "std_lib_facilities.h"
-#include "Stock.h"
+#include "Asset.h"
 
 class YFData {
     /*
-     * Object for pulling YahooFinance data and collecting it into Stock objects
+     * Object for pulling YahooFinance data and collecting it into Asset objects
      */
 public:
     // Constructor that initializes the YahooFinance Data object
     YFData (string ticker, long start_data, long end_date);
 
     // Returns a stock object containing the ticker's adjusted close data
-    Stock get_stock();
+    Asset get_stock();
 
 private:
     // Member properties

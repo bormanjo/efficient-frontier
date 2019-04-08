@@ -15,11 +15,11 @@ project(${PROJECT_DIR_NAME}
 
 set(INCLUDE
     ${PROJECT_SOURCE_DIR}/include/std_lib_facilities.h
-        include/YFData.h include/Stock.h include/Portfolio.h include/Opt.h include/EfficientFrontier.h)
+        include/YFData.h include/Asset.h include/Opt.h include/EfficientFrontier.h)
 
 set(SRC
     ${PROJECT_SOURCE_DIR}/src/main.cpp
-        src/Stock.cpp src/YFData.cpp)
+        src/Asset.cpp src/YFData.cpp)
 
 ### Compiler Flags ############################################################
 

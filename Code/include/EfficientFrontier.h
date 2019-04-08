@@ -6,12 +6,12 @@
 #define CODE_EFFICIENTFRONTIER_H
 
 #include "std_lib_facilities.h"
-#include "Portfolio.h"
+#include "Asset.h"
 #include "Opt.h"
 
 class EfficientFrontier {
 public:
-
+    // TODO - Design the EF class (what functionalities are needed?)
 private:
 
 };

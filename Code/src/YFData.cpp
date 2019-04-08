@@ -13,8 +13,8 @@ YFData::YFData(string ticker, long start_data, long end_date) {
 
 // Public -------------------------------------------------------------------------------------------------------------
 
-Stock YFData::get_stock() {
-    // TODO - Get stock data, construct and return the Stock object
+Asset YFData::get_stock() {
+    // TODO - Get stock data, construct and return the Asset object
 }
 
 // Private ------------------------------------------------------------------------------------------------------------
