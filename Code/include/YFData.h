@@ -27,6 +27,10 @@ private:
 
     // Member functions
     vector<double> get_adj_close_data();
+
+    vector<string> get_metadata();
+
+    string get_link(string &ticker, int d1, int d2, string &intrvl);
 };
 
 

@@ -10,6 +10,12 @@
 
 vector<double> Asset::calc_returns() {
     // TODO - Calculate returns
+
+    /*
+    for px prices:
+        ret[1] = px[1] - px[2]
+
+    */
 }
 
 double Asset::calc_expected_return() {

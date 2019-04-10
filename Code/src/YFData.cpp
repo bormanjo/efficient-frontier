@@ -30,3 +30,10 @@ vector<double> YFData::get_adj_close_data() {
      * TODO - Figure out how to get the CRUMB (last URL parameter)
     */
 }
+
+
+vector<string> YFData::get_metadata() {
+    string dummy_link = "https://finance.yahoo.com/quote/AAPL";
+
+
+}

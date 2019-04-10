@@ -79,7 +79,7 @@ class Portfolio : public Asset {
      */
 public:
     // Constructors --------------------------------------------------------------
-    Portfolio(vector<Stock> &stocks);
+    explicit Portfolio(vector<Stock> &stocks);
     Portfolio(vector<Stock> &stocks, vector<double> &allocations);
 
     // Getters
