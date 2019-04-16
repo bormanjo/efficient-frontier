@@ -15,11 +15,12 @@ class YFData {
 public:
     // Constructor that initializes the YahooFinance Data object
     YFData (string ticker, long start_data, long end_date);
+    YFData ();
 
     // Returns a stock object containing the ticker's adjusted close data
     Asset get_stock();
 
-private:
+//private:
     // Member properties
     string ticker;
     long start_date, end_date;

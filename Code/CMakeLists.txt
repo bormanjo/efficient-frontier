@@ -32,7 +32,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Common Flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -fexceptions -pedantic-errors")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -fexceptions -pedantic-errors -lcurl")
 
 # Debug Flags
 set(CMAKE_CXX_FLAGS_DEBUG "-g -DDEBUG")
@@ -71,9 +71,12 @@ endif(NOT WIN32)
 
 ### Build Configuration #######################################################
 
+find_package(CURL REQUIRED)
+
 add_executable(${PROJECT_NAME}
                ${INCLUDE} ${SRC})
 
+target_link_libraries(${PROJECT_NAME} ${CURL_LIBRARIES})
 target_include_directories(${PROJECT_NAME}
                            PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
