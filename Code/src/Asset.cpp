@@ -46,6 +46,12 @@ void Asset::set_data(vector<double> &data) {
 Stock::Stock(string &ticker, vector<double> &data) {
     this->ticker = ticker;
     this->data = data;
+
+    this->set_returns();
+    this->set_expected_return();
+    this->set_variance();
+    this->set_skewness();
+    this->set_kurtosis();
 }
 
 // Public ----

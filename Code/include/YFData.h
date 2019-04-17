@@ -14,24 +14,29 @@ class YFData {
      */
 public:
     // Constructor that initializes the YahooFinance Data object
-    YFData (string ticker, long start_data, long end_date);
-    YFData ();
+    YFData () = default;
 
     // Returns a stock object containing the ticker's adjusted close data
-    Asset get_stock();
+    Stock get_stock(string ticker, long start_data, long end_date);
 
-//private:
+private:
+
     // Member properties
-    string ticker;
-    long start_date, end_date;
-    vector<double> data;
+    vector<vector<double>> ohlcv;
+    vector<string> dates;
 
     // Member functions
-    vector<double> get_adj_close_data();
+    vector<string> get_metadata(string &symbol, string &cookie_fname);
 
-    vector<string> get_metadata();
+    string get_url(string &symbol, long d1, long d2, string &intrvl, string &crumb);
 
-    string get_link(string &ticker, int d1, int d2, string &intrvl);
+    void pull_data(string &url, string &cookie_fname, string &ticker);
+
+    void set_ohlcv();
+
+    vector<double> get_ohlcv_col(unsigned int col);
+
+    vector<double> get_adjusted_close();
 };
 
 

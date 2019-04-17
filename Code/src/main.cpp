@@ -7,9 +7,13 @@ int main()
 {
     YFData yf;
 
-    vector<string> meta = yf.get_metadata();
+    Stock aapl = yf.get_stock("AAPL", 1262304000, 1514764800);
 
-    cout << meta[0] << endl << meta[1] << endl;
+    cout << "AAPL's Adjusted close data" << endl;
+
+    for (auto const& value:aapl.data) {
+        cout << value << endl;
+    }
 
     return 0;
 }
