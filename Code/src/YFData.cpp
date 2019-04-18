@@ -44,9 +44,11 @@ Stock YFData::get_stock(string symbol, long start_date, long end_date) {
     this->pull_data(url, cookie_fname, symbol);
 
     // Set the data to OHLCV
-    this->set_ohlcv();
+    this->set_ohlcv(symbol);
 
     vector<double> adj_close = this->get_adjusted_close();
+
+    cout << symbol << endl;
 
     Stock stock(symbol, adj_close);
 
@@ -200,14 +202,14 @@ string YFData::get_url(string &symbol, long d1, long d2, string &intrvl, string 
     return  url;
 }
 
-void YFData::set_ohlcv() {
+void YFData::set_ohlcv(string symbol) {
     /*
      * Reads and sets the matrix of ohlcv data and vector of dates
      */
 
     string line;
 
-    string fname = "../../data/YFData.csv";
+    string fname = "../../data/" + symbol + ".csv";
 
     ifstream file(fname);
 

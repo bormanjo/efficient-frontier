@@ -32,7 +32,7 @@ private:
 
     void pull_data(string &url, string &cookie_fname, string &ticker);
 
-    void set_ohlcv();
+    void set_ohlcv(string symbol);
 
     vector<double> get_ohlcv_col(unsigned int col);
 
