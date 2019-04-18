@@ -17,14 +17,23 @@ class Asset {
      */
 public:
     vector<double> data;                    // Represents ordered time series pricing/value data (assumed to be ordered)
-
-    void set_data(vector<double> &data);     // Method for setting the class' data
+    vector<double> returns;
+    double expected_return, variance, skewness, kurtosis;
 
     vector<double> calc_returns();
     double calc_expected_return();
     double calc_variance();
     double calc_skewness();
     double calc_kurtosis();
+    double calc_covariance(Asset other);
+
+    // Setter functions set the corresponding data (do not return anything)
+    void set_data(vector<double> &adj_close);     // Method for setting the class' data
+    void set_returns();
+    void set_expected_return();
+    void set_variance();
+    void set_skewness();
+    void set_kurtosis();
 };
 
 
@@ -57,14 +66,6 @@ private:
     // Member variables/properties (Data storage)
     string ticker;
     vector<double> returns;
-    double expected_return, variance, skewness, kurtosis;
-
-    // Setter functions set the corresponding data (do not return anything)
-    void set_returns();
-    void set_expected_return();
-    void set_variance();
-    void set_skewness();
-    void set_kurtosis();
 };
 
 
@@ -85,15 +86,21 @@ public:
     // Getters
     vector<Stock> get_stocks();
     vector<double> get_weights();
+    vector<vector<double>> get_covar_matrix();
+    double get_covar_matrix(int i, int j);
 
 private:
     // Member Variables
     vector<Stock> stocks;
     vector<double> weights, allocations;
+    vector<vector<double>> covar_matrix;
 
     // Setters
     void set_stocks(vector<Stock> &stocks);
-    void set_weights(vector<double> &allocations);
+    void set_allocations(vector<double> &allocations);
+    void set_weights(vector<double> &weights);
+
+    vector<vector<double>> calc_covar_matrix();
 };
 
 
