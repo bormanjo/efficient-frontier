@@ -87,16 +87,11 @@ void EfficientFrontier::build_optimal_portfolios() {
 
     double rf = 0; // Risk free rate = 0
 
-    if(_debug) cout << "Initializing values" << endl;
 
     Eigen::VectorXd min_var, max_sp;
-    Eigen::VectorXd I = Eigen::VectorXd::Ones(this->num_stocks); // Identity vector
-
-    if(_debug) cout << "Inverting Covariance matrix" << endl;
-
+    Eigen::VectorXd I = Eigen::VectorXd::Ones(this->num_stocks); // Identity vector 
     Eigen::MatrixXd Sigma_inv = this->covariance_mat.inverse();
 
-    if(_debug) cout << "Calculating min var" << endl;
 
     // Minimum Variance = (S^-1 * I) / (I^T * S^-1 * I)
     min_var = (Sigma_inv * I) / (I.transpose() * Sigma_inv * I);
@@ -106,8 +101,6 @@ void EfficientFrontier::build_optimal_portfolios() {
      * - Where b = E[R] - rf * I;
      */
 
-    if(_debug) cout << "Calculating max sharpe" << endl;
-
     Eigen::VectorXd b = this->expected_returns - rf * I;
 
     max_sp =
@@ -115,26 +108,16 @@ void EfficientFrontier::build_optimal_portfolios() {
             (I.transpose() * Sigma_inv * b);
 
 
-    if(_debug) cout << "Allocating vectors" << endl;
-
     vector<double> min_var_alloc(min_var.data(), min_var.data() + min_var.size());
     vector<double> max_sharpe_alloc(max_sp.data(), max_sp.data() + max_sp.size());
 
-    if(_debug) cout << "Setting portfolios" << endl;
 
-    for (int i = 0; i < num_stocks; ++i) {
-        cout << min_var_alloc[i] << endl;
-        cout << max_sharpe_alloc[i] << endl;
-    }
+    Portfolio mv(this->stocks, min_var_alloc);
+    this->min_volatility = mv;
 
+    Portfolio ms(this->stocks, max_sharpe_alloc);
+    this->max_sharpe = ms;
 
-    this->min_volatility = Portfolio(this->stocks, min_var_alloc);
-
-    cout << this->min_volatility << endl;
-
-    this->max_sharpe = Portfolio(this->stocks, max_sharpe_alloc);
-
-    if(_debug) cout << "Done" << endl;
 }
 
 Portfolio EfficientFrontier::get_max_sharpe() {

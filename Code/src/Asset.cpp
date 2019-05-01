@@ -229,6 +229,8 @@ void Portfolio::set_weights(vector<double> &Weights) {
         }
     }
 
+    sum = round(sum * 100) / 100;
+
     if(sum != 1){
         error("Sum of weights is not equal to 1");
     }

@@ -110,8 +110,8 @@ void test_frontier(){
 
         frontier.build_optimal_portfolios();
 
-        cout << "Max Sharpe Portfolio" << frontier.get_max_sharpe() << endl;
-        cout << "Min Variance Portfolio" << frontier.get_min_vol() << endl;
+        cout << "Max Sharpe Portfolio:\n" << frontier.get_max_sharpe() << endl;
+        cout << "Min Variance Portfolio:\n" << frontier.get_min_vol() << endl;
     } catch (exception &e) {
         cerr << e.what() << endl;
     }
