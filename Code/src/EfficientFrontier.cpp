@@ -15,6 +15,8 @@ EfficientFrontier::EfficientFrontier(Portfolio& port) {
      *  - Vector of Expected Returns
      *  - Covariance Matrix
      */
+    this->base = port;
+
     this->stocks = port.get_stocks();
     this->num_stocks = this->stocks.size();
 
@@ -89,7 +91,7 @@ void EfficientFrontier::build_optimal_portfolios() {
 
 
     Eigen::VectorXd min_var, max_sp;
-    Eigen::VectorXd I = Eigen::VectorXd::Ones(this->num_stocks); // Identity vector 
+    Eigen::VectorXd I = Eigen::VectorXd::Ones(this->num_stocks); // Identity vector
     Eigen::MatrixXd Sigma_inv = this->covariance_mat.inverse();
 
 
@@ -130,4 +132,38 @@ Portfolio EfficientFrontier::get_min_vol() {
 
 Eigen::MatrixXd EfficientFrontier::get_frontier() {
     return this->_frontier;
+}
+
+void EfficientFrontier::write_frontier_portfolios() {
+
+    ofstream frontier_file("../../output/frontier.txt");
+
+    if(frontier_file){
+        frontier_file << "Expected Return\tVariance" << endl;
+        frontier_file << this->get_frontier() << endl;
+        frontier_file.close();
+    } else {
+        error("Could not write Frontier to file");
+    }
+
+    ofstream port_file("../../output/portfolios.txt");
+
+    if(port_file){
+        port_file << this->max_sharpe.get_expected_return() << "\t" \
+            << this->max_sharpe.get_variance() << "\t" << "\"Max Sharpe\"" << endl;
+        port_file << this->min_volatility.get_expected_return() << "\t" \
+            << this->min_volatility.get_variance()  << "\t" << "\"Min Variance\"" << endl;
+        port_file << this->base.get_expected_return() << "\t" \
+            << this->base.get_variance()  << "\t" << "\"Initial Portfolio\"" << endl;
+
+        port_file.close();
+    } else {
+        error("Could not write Max Sharpe to file");
+    }
+}
+
+void EfficientFrontier::plot_frontier_portfolios() {
+    string plot_script = "../../plot-scripts/frontier.p";
+    string plot = "gnuplot '" + plot_script + "'";
+    system(plot.c_str());
 }

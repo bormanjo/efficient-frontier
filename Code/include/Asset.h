@@ -89,8 +89,11 @@ public:
     // Getters
     vector<Stock> get_stocks() const;
     vector<double> get_weights() const;
-    vector<vector<double>> get_covar_matrix();
-    double get_covar_matrix(int i, int j);
+    vector<vector<double>> get_covar_matrix() const;
+    double get_covar_matrix(int i, int j) const;
+
+    double get_expected_return() const;
+    double get_variance() const;
 
     friend ostream& operator<<(ostream& stream, const Portfolio& port);
 

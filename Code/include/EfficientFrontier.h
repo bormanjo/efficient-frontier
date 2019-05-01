@@ -34,6 +34,11 @@ public:
     // Return a matrix of [ E[r] | Vol ], each row corresponds to a portfolio
     Eigen::MatrixXd get_frontier();
 
+    // Write the Efficient Frontier and Portfolios to files
+    void write_frontier_portfolios();
+
+    void plot_frontier_portfolios();
+
 private:
 
     unsigned int num_stocks;
@@ -43,7 +48,7 @@ private:
     Eigen::MatrixXd covariance_mat;
     Eigen::MatrixXd _frontier;
 
-    Portfolio max_sharpe, min_volatility;
+    Portfolio max_sharpe, min_volatility, base;
 };
 
 #endif //CODE_EFFICIENTFRONTIER_H

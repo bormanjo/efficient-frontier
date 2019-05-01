@@ -179,6 +179,7 @@ Portfolio::Portfolio(vector<Stock> &stocks, vector<double> &weights) {
     this->set_stocks(stocks);
     this->set_weights(weights);
     this->covar_matrix = calc_covar_matrix();
+
 }
 
 vector<Stock> Portfolio::get_stocks() const {
@@ -189,11 +190,11 @@ vector<double> Portfolio::get_weights() const {
     return this->weights;
 }
 
-vector<vector<double>> Portfolio::get_covar_matrix() {
+vector<vector<double>> Portfolio::get_covar_matrix() const {
     return this->covar_matrix;
 }
 
-double Portfolio::get_covar_matrix(int i, int j) {
+double Portfolio::get_covar_matrix(int i, int j) const {
     return this->covar_matrix[i][j];
 }
 
@@ -201,6 +202,11 @@ ostream& operator<<(ostream &stream, const Portfolio &port) {
     for(unsigned int i = 0; i < port.get_stocks().size(); ++i){
         stream << port.get_stocks()[i] << ": " << port.get_weights()[i] << endl;
     }
+
+    stream << "Expected Return: " << port.get_expected_return() << endl;
+    stream << "Variance: " << port.get_variance()  << endl;
+    //stream << "Skewness:  " << port.skewness << endl;
+    //stream << "Kurtosis: " << port.kurtosis << endl;
 
     return stream;
 }
@@ -271,4 +277,27 @@ vector<vector<double>> Portfolio::calc_covar_matrix(){
 
     // Return the matrix
     return sigma;
+}
+
+double Portfolio::get_expected_return() const{
+    double ret = 0;
+
+    for(unsigned int i = 0; i < this->get_stocks().size(); i++){
+        ret += this->get_stocks()[i].get_expected_return() * this->get_weights()[i];
+    }
+
+    return ret;
+}
+
+double Portfolio::get_variance() const {
+    double var = 0;
+    unsigned int n = this->get_stocks().size();
+
+    for (unsigned int i = 0; i < n; ++i) {
+        for (unsigned int j = 0; j < n; ++j) {
+            var += this->get_weights()[i] * this->get_weights()[j] * this->get_covar_matrix(i, j);
+        }
+    }
+
+    return var;
 }

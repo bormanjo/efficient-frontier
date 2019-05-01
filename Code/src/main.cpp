@@ -92,10 +92,11 @@ void test_frontier(){
     Stock msft = yf.get_stock("MSFT", start, end);
 
     vector<Stock> stocks = {aapl, goog, msft};
+    vector<double> weights = {0.0, 0.0, 1.0};
 
     cout << "Making portfolio..." << endl;
 
-    Portfolio port(stocks);
+    Portfolio port(stocks, weights);
 
     cout << "Initializing Frontier" << endl;
 
@@ -112,6 +113,13 @@ void test_frontier(){
 
         cout << "Max Sharpe Portfolio:\n" << frontier.get_max_sharpe() << endl;
         cout << "Min Variance Portfolio:\n" << frontier.get_min_vol() << endl;
+
+        cout << "Writing Data" << endl;
+        frontier.write_frontier_portfolios();
+
+        cout << "Plotting" << endl;
+        frontier.plot_frontier_portfolios();
+
     } catch (exception &e) {
         cerr << e.what() << endl;
     }
