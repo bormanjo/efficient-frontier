@@ -3,6 +3,7 @@
 #include <regex>
 #include "YFData.h"
 #include "Eigen/Dense"
+#include "EfficientFrontier.h"
 
 void test_yf_data(){
     YFData yf;
@@ -67,19 +68,59 @@ void test_portfolio(){
 
     Portfolio port(stocks);
 
+    Eigen::MatrixXd Sigma(stocks.size(), stocks.size());
+
     for (unsigned int i = 0; i < stocks.size(); ++i) {
         cout << endl;
         for (unsigned int j = 0; j < stocks.size(); ++j) {
+            Sigma(i, j) = port.get_covar_matrix(i, j);
             cout << port.get_covar_matrix(i, j) << "\t";
         }
+    }
 
+    cout << endl << endl << Sigma << endl;
+
+    cout << Sigma.inverse() << endl;
+}
+
+void test_frontier(){
+    long start = 1262304000, end = 1514764800;
+
+    YFData yf;
+    Stock aapl = yf.get_stock("AAPL", start, end);
+    Stock goog = yf.get_stock("GOOG", start, end);
+    Stock msft = yf.get_stock("MSFT", start, end);
+
+    vector<Stock> stocks = {aapl, goog, msft};
+
+    cout << "Making portfolio..." << endl;
+
+    Portfolio port(stocks);
+
+    cout << "Initializing Frontier" << endl;
+
+    try{
+        EfficientFrontier frontier(port);
+
+        cout << "Building Frontier" << endl;
+
+        frontier.build_frontier(10000);
+
+        cout << "Calculating optimal portfolios" << endl;
+
+        frontier.build_optimal_portfolios();
+
+        cout << "Max Sharpe Portfolio" << frontier.get_max_sharpe() << endl;
+        cout << "Min Variance Portfolio" << frontier.get_min_vol() << endl;
+    } catch (exception &e) {
+        cerr << e.what() << endl;
     }
 }
 
 int main()
 {
     try{
-        test_portfolio();
+        test_frontier();
     } catch (exception &e){
         cout << "Error: " << e.what() << endl;
     }

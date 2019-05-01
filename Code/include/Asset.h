@@ -53,7 +53,7 @@ public:
     Stock (string &ticker, vector<double> &data);
 
     // Getter functions - return the corresponding data from the member variables
-    string get_ticker();
+    string get_ticker() const;
 
     // Overrides
     vector<double> get_returns();
@@ -61,6 +61,8 @@ public:
     double get_variance();
     double get_skewness();
     double get_kurtosis();
+
+    friend ostream& operator<<(ostream& stream, const Stock& stock);
 
 private:
     // Member variables/properties (Data storage)
@@ -80,14 +82,17 @@ class Portfolio : public Asset {
      */
 public:
     // Constructors --------------------------------------------------------------
+    explicit Portfolio();
     explicit Portfolio(vector<Stock> &stocks);
     Portfolio(vector<Stock> &stocks, vector<double> &allocations);
 
     // Getters
-    vector<Stock> get_stocks();
-    vector<double> get_weights();
+    vector<Stock> get_stocks() const;
+    vector<double> get_weights() const;
     vector<vector<double>> get_covar_matrix();
     double get_covar_matrix(int i, int j);
+
+    friend ostream& operator<<(ostream& stream, const Portfolio& port);
 
 private:
     // Member Variables

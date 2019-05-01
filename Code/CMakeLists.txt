@@ -19,7 +19,7 @@ set(INCLUDE
 
 set(SRC
     ${PROJECT_SOURCE_DIR}/src/main.cpp
-        src/Asset.cpp src/YFData.cpp)
+        src/Asset.cpp src/YFData.cpp src/EfficientFrontier.cpp)
 
 ### Compiler Flags ############################################################
 

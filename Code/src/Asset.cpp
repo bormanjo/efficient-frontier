@@ -116,7 +116,7 @@ Stock::Stock(string &ticker, vector<double> &data) {
 // Public ----
 
 // Getter functions - return the corresponding data from the member variables
-string Stock::get_ticker(){
+string Stock::get_ticker() const{
     return this->ticker;
 }
 vector<double> Stock::get_returns(){
@@ -135,8 +135,22 @@ double Stock::get_kurtosis(){
     return this->kurtosis;
 }
 
+ostream& operator<<(ostream &stream, const Stock& stock){
+    stream << stock.get_ticker();
+
+    return stream;
+}
+
 
 // Portfolio ---------------------------------------------------------------------------------------------------
+
+
+Portfolio::Portfolio(){
+    this->stocks = {};
+    this->weights = {};
+    this->covar_matrix = {{}};
+}
+
 
 
 Portfolio::Portfolio(vector<Stock> &stocks) {
@@ -162,17 +176,16 @@ Portfolio::Portfolio(vector<Stock> &stocks) {
 }
 
 Portfolio::Portfolio(vector<Stock> &stocks, vector<double> &weights) {
-    // TODO - Implement Constructor when weights are provided (must sum to 1)
-
-
-
+    this->set_stocks(stocks);
+    this->set_weights(weights);
+    this->covar_matrix = calc_covar_matrix();
 }
 
-vector<Stock> Portfolio::get_stocks() {
+vector<Stock> Portfolio::get_stocks() const {
     return this->stocks;
 }
 
-vector<double> Portfolio::get_weights() {
+vector<double> Portfolio::get_weights() const {
     return this->weights;
 }
 
@@ -182,6 +195,14 @@ vector<vector<double>> Portfolio::get_covar_matrix() {
 
 double Portfolio::get_covar_matrix(int i, int j) {
     return this->covar_matrix[i][j];
+}
+
+ostream& operator<<(ostream &stream, const Portfolio &port) {
+    for(unsigned int i = 0; i < port.get_stocks().size(); ++i){
+        stream << port.get_stocks()[i] << ": " << port.get_weights()[i] << endl;
+    }
+
+    return stream;
 }
 
 void Portfolio::set_stocks(vector<Stock> &Stocks) {
