@@ -125,10 +125,80 @@ void test_frontier(){
     }
 }
 
+void user_interface(){
+    string ticker;
+    vector<string> tickers = {};
+
+    cout << "Welcome to the Efficient Frontier!" << endl << endl;
+    cout << "Enter the tickers of the stocks you would like in your portfolio. When you are finished, enter 'done'." << endl;
+
+    cout << "> ";
+
+    while(cin >> ticker){
+        if(ticker == "done"){
+            break;
+        }
+
+        tickers.push_back(ticker);
+
+        cout << "> ";
+    }
+
+    vector<double> allocations = {};
+    double allocation, total = 0;
+
+    for (unsigned int i = 0; i < tickers.size(); ++i) {
+        while(true){
+            cout << "Amount allocated to " << tickers[i] << " = $";
+            if(cin >> allocation) {
+                allocations.push_back(allocation);
+                total += allocation;
+                break;
+            } else {
+                cout << "Error: Please enter a $ Dollar amount" << endl;
+            }
+        }
+    }
+
+    cout << "Compiling your portfolio..." << endl;
+
+    YFData yf;
+    vector<Stock> stocks = {};
+    vector<double> weights = {};
+
+    long start = 1262304000, end = 1514764800;
+
+    for (unsigned int j = 0; j < tickers.size(); ++j) {
+        Stock tmp = yf.get_stock(tickers[j], start, end);
+        stocks.push_back(tmp);
+        weights.push_back(allocations[j]/total);
+    }
+
+    Portfolio port(stocks, weights);
+
+    cout << "Your Portfolio: " << endl << port << endl;
+
+    long int n = 20000;
+
+    cout << "Building Efficient Frontier..." << endl;
+
+    EfficientFrontier ef(port);
+
+    ef.build_frontier(n);
+    ef.build_optimal_portfolios();
+    ef.write_frontier_portfolios();
+    ef.plot_frontier_portfolios();
+
+    cout << "Results:" << endl <<
+        "Your Max Sharpe Portfolio:" << endl << ef.get_max_sharpe() << endl <<
+        "Your Min Variance Portfolio:" << endl << ef.get_min_vol() << endl <<
+        "Your Portfolio:" << endl << port << endl;
+}
+
 int main()
 {
     try{
-        test_frontier();
+        user_interface();
     } catch (exception &e){
         cout << "Error: " << e.what() << endl;
     }

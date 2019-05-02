@@ -4,8 +4,6 @@
 
 #include "EfficientFrontier.h"
 
-bool _debug = true;
-
 // Constructors ------------------------------------------------------------------------------------------------------
 
 EfficientFrontier::EfficientFrontier(Portfolio& port) {
@@ -45,14 +43,10 @@ void EfficientFrontier::build_frontier(long num_portfolios) {
     int n = this->num_stocks;
     this->_frontier = Eigen::MatrixXd(num_portfolios, 2);
 
-    if(_debug) cout << "Creating random ports" << endl;
-
     // Create a matrix of random portfolios
     Eigen::MatrixXd mat =           // Matrix of random double in [0, 2] =
             Eigen::MatrixXd::Random(num_portfolios, n) +    // Matrix of random double in [-1, 1]
             Eigen::MatrixXd::Ones(num_portfolios, n);       // Matrix of double 1's
-
-    if(_debug) cout << "Calculating rowsums" << endl;
 
     // Calculate rowsums to normalize the values
     Eigen::VectorXd I = Eigen::VectorXd::Ones(n);
@@ -61,8 +55,6 @@ void EfficientFrontier::build_frontier(long num_portfolios) {
     // Temp values for each iteration
     Eigen::VectorXd w;
     double e_r, vol;
-
-    if(_debug) cout << "Iterating" << endl;
 
     // Calculate (normalized) (long only) weights
     for (long i = 0; i < num_portfolios; ++i) {
@@ -79,7 +71,6 @@ void EfficientFrontier::build_frontier(long num_portfolios) {
         this->_frontier(i, 1) = vol;
     }
 
-    if(_debug) cout << "build_frontier is done." << endl;
 }
 
 void EfficientFrontier::build_optimal_portfolios() {
@@ -155,6 +146,12 @@ void EfficientFrontier::write_frontier_portfolios() {
             << this->min_volatility.get_variance()  << "\t" << "\"Min Variance\"" << endl;
         port_file << this->base.get_expected_return() << "\t" \
             << this->base.get_variance()  << "\t" << "\"Initial Portfolio\"" << endl;
+
+
+        for (auto &stock : this->stocks) {
+            port_file << stock.get_expected_return() << "\t" \
+            << stock.get_variance()  << "\t" << "\"" << stock.get_ticker() <<"\"" << endl;
+        }
 
         port_file.close();
     } else {

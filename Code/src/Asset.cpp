@@ -226,6 +226,7 @@ void Portfolio::set_weights(vector<double> &Weights) {
 
     double sum = 0;
     for (unsigned int i = 0; i < Weights.size(); ++i) {
+        /*
         if(Weights[i] < 0){
             error("Weights must be larger than 0");
         } else if(sum + Weights[i] > 1){
@@ -233,14 +234,17 @@ void Portfolio::set_weights(vector<double> &Weights) {
         } else {
             sum += Weights[i];
         }
+         */
+        sum += Weights[i];
     }
 
+    /*
     sum = round(sum * 100) / 100;
 
     if(sum != 1){
         error("Sum of weights is not equal to 1");
     }
-
+    */
     this->weights = Weights;
 }
 
